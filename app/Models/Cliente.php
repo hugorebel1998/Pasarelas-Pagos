@@ -5,26 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Usuario extends Model
+class Cliente extends Model
 {
     const ESTATUS_ACTIVO   = 'activo';
     const ESTATUS_INACTIVO = 'inactivo';
 
-    protected $table = 'usuarios';
+    const PARENTESCO = ['Madre', 'Padre', 'Otro'];
+
+    protected $table = 'clientes';
 
     protected $fillable = [
         'nombre',
         'paterno',
         'materno',
-        'username',
         'email',
-        'password',
+        'fecha_nacimiento',
+        'nombre_tutor',
+        'apellidos_tutor',
+        'parentesco',
+        'telefono',
         'estatus',
+        'password'
     ];
-
 
     protected $appends = [
         'nombre_completo'
@@ -36,7 +40,6 @@ class Usuario extends Model
 
     protected $hidden = [
         'updated_at',
-        'deleted_at',
         'password',
     ];
 
@@ -45,7 +48,7 @@ class Usuario extends Model
     ];
 
 
-    use HasFactory, HasUlids, SoftDeletes;
+    use HasFactory, HasUlids;
 
     protected function nombreCompleto(): Attribute
     {
