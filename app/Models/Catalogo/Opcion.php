@@ -2,13 +2,14 @@
 
 namespace App\Models\Catalogo;
 
+use App\Models\Catalogo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 
 class Opcion extends Model
 {
-    protected $table = 'catalogos_opciones';
+    protected $table = 'catalogo_opciones';
 
     protected $fillable = [
         'catalogo_id',
@@ -21,5 +22,4 @@ class Opcion extends Model
     ];
 
     use HasFactory, HasUlids;
-
 }

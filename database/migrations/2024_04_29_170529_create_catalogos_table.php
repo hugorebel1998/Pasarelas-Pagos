@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('catalogos', function (Blueprint $table) {
-            $table->id();
             $table->uuid('id')->primary();
             $table->string('nombre');
             $table->string('codigo')->unique();
