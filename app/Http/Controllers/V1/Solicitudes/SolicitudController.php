@@ -6,6 +6,7 @@ use App\Factories\Solicitud;
 use App\Http\Controllers\Controller;
 use App\Models\Solicitud as ModelsSolicitud;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class SolicitudController extends Controller
@@ -18,7 +19,11 @@ class SolicitudController extends Controller
     public function crear(Request $request)
     {
 
+        $usuario_db = Auth::user();
+        $request->request->add(['usuario_id' => $usuario_db['id']]);
+        
         $solicitud = $this->validate($request, [
+            'usuario_id' => 'required|exists:usuarios,id',
             'nombre'   => 'required|min:2|max:60',
             'apellidos'  => 'required|min:2|max:100',
             'fecha_nacimiento'  => 'required',

@@ -33,7 +33,7 @@ class Auth
             'exp' => $toke_life,  //Expiración de token 1h
             'iat' => $token_fecha_creacion, // Hora en la que se crea el token formato UNIX
             'data' => [
-                'usuario_id'  => $usuario_db['id'],
+                'id'          => $usuario_db['id'],
                 'username'    => $usuario_db['username'],
                 'nombre_completo' => $usuario_db['nombre_completo'],
                 'email'       => $usuario_db['email'],
@@ -71,7 +71,7 @@ class Auth
             $payload = [
                 'success' => true,
                 'user' => [
-                    'usuario_id' => data_get($data, 'data.usuario_id'),
+                    'id' => data_get($data, 'data.id'),
                     'username'   => data_get($data, 'data.username'),
                     'nombre_completo' => data_get($data, 'data.nombre_completo'),
                     'email'      => data_get($data, 'data.email'),

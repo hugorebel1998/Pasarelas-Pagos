@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('solicitudes', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('usuario_id');
             $table->string('nombre');
             $table->string('apellidos');
             $table->string('fecha_nacimiento');
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->string('pais_clave');
             $table->string('programa_clave');
             $table->timestamps();
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

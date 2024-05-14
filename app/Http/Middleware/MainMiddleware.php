@@ -3,8 +3,10 @@
 namespace App\Http\Middleware;
 
 use App\Factories\Auth;
+use App\Models\Usuario;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,7 +25,11 @@ class MainMiddleware
             $token = explode(' ', $headers)[1];
             $response = Auth::validateBearerToken($token);
             if ($response['success'])
-                return $next($request);
+                // $request->attributes->add(['auth' => $response['user']]);
+                $usuario = Usuario::where('id', $response['user']['id'])->first();
+
+            FacadesAuth::setUser($usuario);
+            return $next($request);
         } else if ($request->path() == 'api/v1/auth/login' && $request->method() == 'POST') {
             return $next($request);
         } else if (empty($headers)) {
