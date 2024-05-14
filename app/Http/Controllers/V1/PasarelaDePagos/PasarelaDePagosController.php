@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\V1\ViaDePagos;
+namespace App\Http\Controllers\V1\PasarelaDePagos;
 
-use App\Factories\ViaDePago;
+use App\Factories\PasarelaDePago;
 use App\Http\Controllers\Controller;
-use App\Models\ViaDePago as ModelsViaDePago;
+use App\Models\PasarelaDePago as ModelsPasarelaDePago;
 use Illuminate\Http\Request;
 
-class ViaDePagosController extends Controller
+class PasarelaDePagosController extends Controller
 {
 
     public function listar($viadepago_id = null)
     {
-        return ViaDePago::select($viadepago_id);
+        return PasarelaDePago::select($viadepago_id);
     }
 
     public function crear(Request $request)
@@ -24,13 +24,13 @@ class ViaDePagosController extends Controller
             'cliente_secret' => 'required',
         ]);
 
-        return ViaDePago::create($viadepago);
+        return PasarelaDePago::create($viadepago);
     }
 
     public function actualizar(Request $request, $viadepago_id)
     {
 
-        $viadepago_db = ModelsViaDePago::findOrFail($viadepago_id);
+        $viadepago_db = ModelsPasarelaDePago::findOrFail($viadepago_id);
 
         $viadepago = $this->validate($request, [
             'nombre' => 'sometimes|unique:via_de_pagos,nombre,' . $viadepago_db->id,
@@ -39,6 +39,6 @@ class ViaDePagosController extends Controller
             'cliente_secret' => 'sometimes',
         ]);
 
-        return ViaDePago::update($viadepago_db, $viadepago);
+        return PasarelaDePago::update($viadepago_db, $viadepago);
     }
 }

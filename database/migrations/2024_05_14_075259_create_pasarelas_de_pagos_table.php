@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('via_de_pagos', function (Blueprint $table) {
+        Schema::create('pasarelas_de_pagos', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nombre');
             $table->string('url');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('via_de_pagos');
+        Schema::dropIfExists('pasarelas_de_pagos');
     }
 };

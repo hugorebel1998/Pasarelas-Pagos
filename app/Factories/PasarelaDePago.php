@@ -2,23 +2,23 @@
 
 namespace App\Factories;
 
-use App\Models\ViaDePago as ModelsViaDePago;
+use App\Models\PasarelaDePago as ModelsPasarelaDePago;
 
-class ViaDePago
+class PasarelaDePago
 {
 
     public static function select(string|null $viadepago_id)
     {
         if (empty($viadepago_id))
-            return ModelsViaDePago::all();
+            return ModelsPasarelaDePago::all();
 
-        return ModelsViaDePago::findOrFail($viadepago_id);
+        return ModelsPasarelaDePago::findOrFail($viadepago_id);
     }
 
     public static function create(array $viadepago)
     {
 
-        return ModelsViaDePago::create($viadepago);
+        return ModelsPasarelaDePago::create($viadepago);
     }
 
     public static function update(object $viadepago_db, array $viadepago)

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Encryption\Encrypter;
 
-class ViaDePago extends Model
+class PasarelaDePago extends Model
 {
 
     const ESTATUS_ACTIVO      = 'activo';
