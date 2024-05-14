@@ -78,7 +78,7 @@ class Auth
                     'estatus'    => data_get($data, 'data.estatus'),
                 ],
             ];
-            Log::info(["Autenticación:" => $payload]);
+            // Log::info(["Autenticación:" => $payload]);
             return $payload;
         } catch (Exception $e) {
             Log::error($e);
