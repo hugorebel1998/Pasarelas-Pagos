@@ -19,7 +19,7 @@ class PaypalService extends HttpCliente
             'headers' => [
                 'Authorization' => 'Bearer ' . $auth['access_token']
             ],
-            'json' => [$payload]
+            'json' => $payload
         ]);
 
         return $this->decodificateResponse($response);

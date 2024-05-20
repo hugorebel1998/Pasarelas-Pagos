@@ -7,25 +7,25 @@ use App\Models\PasarelaDePago as ModelsPasarelaDePago;
 class PasarelaDePago
 {
 
-    public static function select(string|null $viadepago_id)
+    public static function select(string|null $pasarela_id)
     {
-        if (empty($viadepago_id))
+        if (empty($pasarela_id))
             return ModelsPasarelaDePago::all();
 
-        return ModelsPasarelaDePago::findOrFail($viadepago_id);
+        return ModelsPasarelaDePago::findOrFail($pasarela_id);
     }
 
-    public static function create(array $viadepago)
+    public static function create(array $pasarela)
     {
 
-        return ModelsPasarelaDePago::create($viadepago);
+        return ModelsPasarelaDePago::create($pasarela);
     }
 
-    public static function update(object $viadepago_db, array $viadepago)
+    public static function update(object $pasarela_db, array $pasarela)
     {
-        $viadepago_db->fill($viadepago);
-        $viadepago_db->save();
+        $pasarela_db->fill($pasarela);
+        $pasarela_db->save();
 
-        return $viadepago_db;
+        return $pasarela_db;
     }
 }

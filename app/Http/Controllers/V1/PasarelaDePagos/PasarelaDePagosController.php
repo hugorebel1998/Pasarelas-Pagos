@@ -10,35 +10,35 @@ use Illuminate\Http\Request;
 class PasarelaDePagosController extends Controller
 {
 
-    public function listar($viadepago_id = null)
+    public function listar($pasarela_id = null)
     {
-        return PasarelaDePago::select($viadepago_id);
+        return PasarelaDePago::select($pasarela_id);
     }
 
     public function crear(Request $request)
     {
-        $viadepago = $this->validate($request, [
+        $pasarela = $this->validate($request, [
             'nombre' => 'required|unique:via_de_pagos,nombre',
             'url' => 'required|unique:via_de_pagos,url',
             'cliente_key' => 'required',
             'cliente_secret' => 'required',
         ]);
 
-        return PasarelaDePago::create($viadepago);
+        return PasarelaDePago::create($pasarela);
     }
 
-    public function actualizar(Request $request, $viadepago_id)
+    public function actualizar(Request $request, $pasarela_id)
     {
 
-        $viadepago_db = ModelsPasarelaDePago::findOrFail($viadepago_id);
+        $pasarela_db = ModelsPasarelaDePago::findOrFail($pasarela_id);
 
-        $viadepago = $this->validate($request, [
-            'nombre' => 'sometimes|unique:via_de_pagos,nombre,' . $viadepago_db->id,
-            'url' => 'sometimes|unique:via_de_pagos,url,' . $viadepago_db->id,
+        $pasarela = $this->validate($request, [
+            'nombre' => 'sometimes|unique:via_de_pagos,nombre,' . $pasarela_db->id,
+            'url' => 'sometimes|unique:via_de_pagos,url,' . $pasarela_db->id,
             'cliente_key' => 'sometimes',
             'cliente_secret' => 'sometimes',
         ]);
 
-        return PasarelaDePago::update($viadepago_db, $viadepago);
+        return PasarelaDePago::update($pasarela_db, $pasarela);
     }
 }

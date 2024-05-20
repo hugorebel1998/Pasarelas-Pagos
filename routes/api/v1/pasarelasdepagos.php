@@ -6,7 +6,10 @@ Route::group(['prefix' => 'pasarelasdepagos', 'namespace' => 'PasarelaDePagos', 
 
 
     Route::get('/', 'PasarelaDePagosController@listar')->name('listar');
-    Route::get('/{viadepago}', 'PasarelaDePagosController@listar')->name('mostrar');
+    Route::get('/{pasarela}', 'PasarelaDePagosController@listar')->name('mostrar');
     Route::post('/', 'PasarelaDePagosController@crear')->name('crear');
-    Route::put('/{viadepago}', 'PasarelaDePagosController@actualizar')->name('actualizar');
+    Route::put('/{pasarela}', 'PasarelaDePagosController@actualizar')->name('actualizar');
+
+    require('pasarelasdepagos/pagos.php');
+
 });

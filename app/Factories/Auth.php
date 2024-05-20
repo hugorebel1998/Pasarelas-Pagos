@@ -47,11 +47,19 @@ class Auth
             throw new Exception('No es posible iniciar sesión, comunicate con tu administrador', 500);
 
         return [
+            'success' => true,
+            'access_token' => $token,
+            'type' => 'bearer',
             'exp' => $toke_life,
             'iat' => $token_fecha_creacion,
-            'data' => [
-                'token' => $token
+            'user' => [
+                'id'          => $usuario_db['id'],
+                'username'    => $usuario_db['username'],
+                'nombre_completo' => $usuario_db['nombre_completo'],
+                'email'       => $usuario_db['email'],
+                'estatus'     => $usuario_db['estatus'],
             ]
+
         ];
     }
 
