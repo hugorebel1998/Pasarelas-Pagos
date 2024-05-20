@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\V1\PasarelaDePagos;
+namespace App\Http\Controllers\V1\Pagos;
 
-use App\Factories\PasarelaDePago\Pago;
+use App\Factories\Paypal;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -31,6 +31,6 @@ class PagosController extends Controller
             'moneda'       => 'required',
         ]);
 
-        return Pago::create($pago);
+        return Paypal::create($pago);
     }
 }
