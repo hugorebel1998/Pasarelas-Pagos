@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -21,8 +22,15 @@ class Pago extends Model
         'estatus',
         'nombre_pagador',
         'email_pagador',
-        'solicitud_id',
     ];
 
     use HasFactory, HasUlids;
+
+
+    protected function estatus(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) =>  strtolower($value)
+        );
+    }
 }
