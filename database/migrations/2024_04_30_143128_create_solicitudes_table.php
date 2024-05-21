@@ -24,12 +24,10 @@ return new class extends Migration
             $table->string('email');
             $table->string('telefono');
             $table->string('nombre_colegio');
-            // $table->decimal('monto_a_pagar',11,2);
-            // $table->string('referencia_pago');
-            // $table->string('moneda_clave');
             $table->string('ciclo_viaje_clave');
             $table->string('pais_clave');
             $table->string('programa_clave');
+            $table->string('estatus')->nullable();
             $table->timestamps();
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
         });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\V1\Pagos\PaypalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return response()->json(['success' => true, 'Bienvenido' => 'Pasarela pagos V2'], 200);
+    return response()->json(['success' => true, 'Bienvenido' => 'Pasarela pagos V2'], 200); 
 });
+
+Route::get('/paypal/success', [PaypalController::class, 'success'])->name('paypal.success');
+Route::get('/paypal/error', [PaypalController::class, 'error'])->name('paypal.error');

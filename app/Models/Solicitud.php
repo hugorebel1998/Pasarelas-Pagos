@@ -11,6 +11,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 class Solicitud extends Model
 {
     const PARENTESCO_PERSONA = ['Madre', 'Padre', 'Otro'];
+    const ESTATUS_APROVADO  = 'aprobado';
+    const ESTATUS_PENDIENTE = 'pendiente';
+    const ESTATUS_RECHAZADO = 'rechazado';
+    const ESTATUS_CANCELADO = 'cancelado';
+
+
 
     protected $table = 'solicitudes';
 
@@ -32,6 +38,7 @@ class Solicitud extends Model
         'ciclo_viaje_clave',
         'pais_clave',
         'programa_clave',
+        'estatus',
     ];
 
     protected $hidden = [
@@ -43,6 +50,12 @@ class Solicitud extends Model
         'nombre_completo_tutor',
     ];
 
+
+    protected $attributes = [
+        'estatus' => self::ESTATUS_PENDIENTE
+    ];
+
+    
     use HasFactory, HasUlids;
 
     protected function nombreCompleto(): Attribute

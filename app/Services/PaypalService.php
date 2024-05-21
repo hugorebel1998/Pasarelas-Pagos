@@ -19,7 +19,7 @@ class PaypalService extends HttpCliente
             'headers' => [
                 'Authorization' => 'Bearer ' . $auth['access_token'],
                 'Prefer' => 'return=representation',
-                'PayPal-Request-Id'
+                // 'Content-Type' => 'application/x-www-form-urlencoded',
             ],
             'json' => $payload
         ]);
@@ -27,20 +27,7 @@ class PaypalService extends HttpCliente
         return $this->decodificateResponse($response);
     }
 
-    public function verOrden($orden_id)
-    {
-        $auth = $this->oAuth2Token();
-
-        $response = $this->request('GET', "v2/checkout/orders/$orden_id", [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $auth['access_token'],
-            ],
-        ]);
-
-        return $this->decodificateResponse($response);
-    }
-
-    public function confirmarOrden($orden_id)
+    public function confirmarOrden($orden_id, $payload)
     {
         $auth = $this->oAuth2Token();
 
@@ -48,7 +35,9 @@ class PaypalService extends HttpCliente
             'headers' => [
                 'Authorization' => 'Bearer ' . $auth['access_token'],
                 'Prefer' => 'return=representation',
+                'Content-Type' => 'application/json',
             ],
+            'json' => $payload
         ]);
 
         return $this->decodificateResponse($response);
@@ -62,6 +51,7 @@ class PaypalService extends HttpCliente
             'headers' => [
                 'Authorization' => 'Bearer ' . $auth['access_token'],
                 'Prefer' => 'return=representation',
+                'Content-Type' => 'application/json',
             ],
         ]);
 
