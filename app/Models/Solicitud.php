@@ -34,7 +34,6 @@ class Solicitud extends Model
         'nombre_colegio',
         'monto_a_pagar',
         'referencia_pago',
-        'moneda_clave',
         'ciclo_viaje_clave',
         'pais_clave',
         'programa_clave',

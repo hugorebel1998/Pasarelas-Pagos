@@ -36,7 +36,6 @@ class SolicitudController extends Controller
             'nombre_colegio' => 'required',
             'monto_a_pagar' => 'required',
             'referencia_pago' => 'required',
-            'moneda_clave' => 'required',
             'ciclo_viaje_clave' => 'required',
             'pais_clave' => 'required',
             'programa_clave' => 'required'

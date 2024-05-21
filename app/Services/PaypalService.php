@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use Exception;
+use Illuminate\Encryption\Encrypter;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class PaypalService extends HttpCliente
@@ -62,18 +64,25 @@ class PaypalService extends HttpCliente
     private function oAuth2Token()
     {
         try {
-            $response = $this->request('POST', 'v1/oauth2/token', [
-                'headers' => [
-                    'Authorization' => 'Basic ' . base64_encode(env('PAYPAL_CLIENTE_KEY') . ':' . env('PAYPAL_CLIENTE_SECRET')),
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                ],
-                'form_params' => [
-                    'grant_type' => 'client_credentials',
-                ],
-            ]);
+            return Cache::remember('paypal_service', 7200, function () {
+                $paypal_key_db = confenv('PAYPAL_CLIENTE_KEY');
+                $paypal_secret_db = confenv('PAYPAL_CLIENTE_SECRET');
 
+                // Se desencripta valores para trabajarlos
+                $paypal_key     =  (new Encrypter(env('KEY_ENCRYPT')))->decrypt($paypal_key_db);
+                $paypal_secret  =  (new Encrypter(env('KEY_ENCRYPT')))->decrypt($paypal_secret_db);
+                $response = $this->request('POST', 'v1/oauth2/token', [
+                    'headers' => [
+                        'Authorization' => 'Basic ' . base64_encode($paypal_key . ':' . $paypal_secret),
+                        'Content-Type' => 'application/x-www-form-urlencoded',
+                    ],
+                    'form_params' => [
+                        'grant_type' => 'client_credentials',
+                    ],
+                ]);
 
-            return $this->decodificateResponse($response);
+                return $this->decodificateResponse($response);
+            });
         } catch (Exception $e) {
             Log::error(print_r($e, true));
             return $e;
