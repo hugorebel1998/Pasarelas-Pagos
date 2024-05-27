@@ -48,8 +48,8 @@ class Paypal
                             'brand_name' => env('APP_NAME'),
                             'shipping_preferenc' => 'NO_SHIPPING',
                             'user_action' => 'PAY_NOW',
-                            'return_url' => route('paypal.success'),
-                            'cancel_url' => route('paypal.error')
+                            'return_url' => route('pago.success'),
+                            'cancel_url' => route('pago.error')
                         ]
 
                     ]

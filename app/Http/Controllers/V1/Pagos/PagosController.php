@@ -40,11 +40,15 @@ class PagosController extends Controller
         return response()->json(['Ocurio un error'], 404);
     }
 
-    public function webhook(Request $request)
+    public function webhookPaypal(Request $request)
     {
-        Log::info([$request->all()]);
         $orden = $request->all();
-
         return Pagos::paypalWebhook($orden);
+    }
+
+    public function webhookStripe(Request $request)
+    {
+        $orden = $request->all();
+        return Pagos::stripeWebhook($orden);
     }
 }

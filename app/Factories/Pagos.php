@@ -3,8 +3,10 @@
 namespace App\Factories;
 
 use App\Factories\Pagos\Paypal;
+use App\Factories\Pagos\Stripe;
 use App\Models\Pago as ModelsPago;
 use App\Models\Solicitud;
+use Exception;
 
 class Pagos
 {
@@ -20,19 +22,26 @@ class Pagos
     {
         $solicitud_db = Solicitud::where('id', $pago['solicitud_id'])->first();
 
+        if ($solicitud_db['estatus'] === Solicitud::ESTATUS_APROVADO)
+            throw new Exception("La solicitud ya se encuentra aprovada", 404);
+
+
         if ($pago['pasarela_pago'] === 'paypal' && $solicitud_db['estatus'] === Solicitud::ESTATUS_PENDIENTE) {
 
-            // Se invoca al Factorie de crear orden en paypal
             return Paypal::createOrder($pago);
         } else if ($pago['pasarela_pago'] === 'stripe' && $solicitud_db['estatus'] === Solicitud::ESTATUS_PENDIENTE) {
-            // Se invoca al Factorie de crear orden en stipe
 
-            return 'No éxiste logica aun';
+            return Stripe::createOrder($pago);
         }
     }
 
     public static function paypalWebhook(array $orden)
     {
         return Paypal::webhook($orden);
+    }
+
+    public static function stripeWebhook(array $orden)
+    {
+        return Stripe::webhook($orden);
     }
 }
