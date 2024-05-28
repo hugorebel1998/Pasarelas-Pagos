@@ -86,7 +86,33 @@ class Auth
                     'estatus'    => data_get($data, 'data.estatus'),
                 ],
             ];
-            // Log::info(["Autenticación:" => $payload]);
+
+            return $payload;
+        } catch (Exception $e) {
+            Log::error($e);
+            throw new Exception($e);
+        }
+    }
+
+    public static function refreshToken($token)
+    {
+        try {
+            $token_secret = env('TOKEN_SECRET');
+            $token_algoritmo = env('TOKEN_ALGORITMO');
+
+            $data = JWT::decode($token, new Key($token_secret, $token_algoritmo));
+
+            $payload = [
+                'success' => true,
+                'user' => [
+                    'id' => data_get($data, 'data.id'),
+                    'username'   => data_get($data, 'data.username'),
+                    'nombre_completo' => data_get($data, 'data.nombre_completo'),
+                    'email'      => data_get($data, 'data.email'),
+                    'estatus'    => data_get($data, 'data.estatus'),
+                ],
+            ];
+
             return $payload;
         } catch (Exception $e) {
             Log::error($e);
