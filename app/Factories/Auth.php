@@ -2,6 +2,7 @@
 
 namespace App\Factories;
 
+use App\Exceptions\BadRequestException;
 use App\Models\Usuario as ModelsUsuario;
 use Firebase\JWT\JWT;
 use Carbon\Carbon;
@@ -17,10 +18,11 @@ class Auth
         $usuario_db = ModelsUsuario::where('email', $usuario['email'])->where('estatus', ModelsUsuario::ESTATUS_ACTIVO)->first();
 
         if (!$usuario_db)
-            throw new Exception('Usuario o contraseña invalido', 401);
+            throw new BadRequestException('Usuario o contraseña invalido', 401);
+
 
         if (!password_verify($usuario['password'], $usuario_db['password']))
-            throw new Exception('La contraseña no coincide', 401);
+            throw new BadRequestException('La contraseña no coincide', 401);
 
 
         $token_fecha_creacion = Carbon::now()->timestamp;
