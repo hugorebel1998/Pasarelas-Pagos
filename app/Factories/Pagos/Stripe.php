@@ -2,6 +2,7 @@
 
 namespace App\Factories\Pagos;
 
+use App\Mail\NotificacionPagos;
 use App\Models\Pago;
 use App\Models\Solicitud;
 use App\Services\StripeService;
@@ -9,7 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
 
 class Stripe
 {
@@ -89,6 +90,8 @@ class Stripe
             $solicitud_db->update([
                 'estatus' => Solicitud::ESTATUS_APROVADO
             ]);
+
+            Mail::to($pago_db['email_pagador'])->send(new NotificacionPagos($pago_db['nombre_pagador'], $pago_db['tipo_moneda'], $pago_db['cantidad_pagada']));
 
             DB::commit();
 
