@@ -37,6 +37,6 @@ class MainMiddleware
             return $next($request);
         } else {
             return response()->json(['success' => false, 'message' => 'Acceso no autorizado'], 401);
-        }
+        }   
     }
 }

@@ -14,6 +14,11 @@ class CatalogoController extends Controller
         return Catalogo::select($catalogo_id);
     }
 
+    public  function byCodigo($codigo)
+    {
+        return Catalogo::codigo($codigo);
+    }
+
     public function crear(Request $request)
     {
         $catalogo = $this->validate($request, [

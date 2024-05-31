@@ -7,5 +7,6 @@ Route::group(['prefix' => 'solicitudes', 'namespace' => 'Solicitudes', 'middlewa
     Route::get('/', 'SolicitudController@listar')->name('listar');
     Route::get('/{solicitud}', 'SolicitudController@listar')->name('mostrar');
     Route::post('/', 'SolicitudController@crear')->name('crear');
+    Route::put('/{solicitud}', 'SolicitudController@actualizar')->name('actualizar');
 
 });

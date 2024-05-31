@@ -10,7 +10,7 @@ class Solicitud
     public static function select(string|null $solicitud_id)
     {
         if (empty($solicitud_id))
-            return ModelsSolicitud::all();
+            return ModelsSolicitud::orderBy('id', 'desc')->get()    ;
 
         return ModelsSolicitud::findOrFail($solicitud_id);
     }
@@ -18,5 +18,14 @@ class Solicitud
     public static function create(array $solicitud)
     {
         return ModelsSolicitud::create($solicitud);
+    }
+
+    public static function update(object $solicitud_db, array $solicitud)
+    {
+        $solicitud_db->fill($solicitud);
+
+        $solicitud_db->save();
+
+        return $solicitud_db;
     }
 }

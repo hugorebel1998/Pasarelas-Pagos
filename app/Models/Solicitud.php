@@ -54,7 +54,7 @@ class Solicitud extends Model
         'estatus' => self::ESTATUS_PENDIENTE
     ];
 
-    
+
     use HasFactory, HasUlids;
 
     protected function nombreCompleto(): Attribute
@@ -68,6 +68,20 @@ class Solicitud extends Model
     {
         return Attribute::make(
             get: fn () => implode(' ', array_values([$this->nombre_tutor, $this->apellidos_tutor]))
+        );
+    }
+
+    protected function paisClave(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => strtolower($value)
+        );
+    }
+
+    protected function programaClave(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => strtolower($value)
         );
     }
 }

@@ -4,7 +4,6 @@ namespace App\Factories;
 
 use App\Factories\Catalogo\Opciones;
 use App\Models\Catalogo as ModelsCatalogo;
-use Illuminate\Support\Facades\Log;
 
 class Catalogo
 {
@@ -14,6 +13,11 @@ class Catalogo
             return ModelsCatalogo::with('opciones')->get();
 
         return ModelsCatalogo::with('opciones')->findOrFail($catalogo_id);
+    }
+
+    public static function codigo($codigo)
+    {
+        return ModelsCatalogo::where('codigo', $codigo)->with('opciones')->first();
     }
 
     public static function create(array $catalogo)

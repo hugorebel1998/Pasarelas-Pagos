@@ -21,7 +21,7 @@ class SolicitudController extends Controller
 
         $usuario_db = Auth::user();
         $request->request->add(['usuario_id' => $usuario_db['id']]);
-        
+
         $solicitud = $this->validate($request, [
             'usuario_id' => 'required|exists:usuarios,id',
             'nombre'   => 'required|min:2|max:60',
@@ -30,7 +30,7 @@ class SolicitudController extends Controller
             'anio_escolar' => 'required',
             'nombre_tutor'    => 'required|min:2|max:60',
             'apellidos_tutor' => 'required|min:2|max:100',
-            'parentesco' => 'required|'. Rule::in(ModelsSolicitud::PARENTESCO_PERSONA),
+            'parentesco' => 'required|' . Rule::in(ModelsSolicitud::PARENTESCO_PERSONA),
             'email' => 'required',
             'telefono' => 'required|min:10|max:13',
             'nombre_colegio' => 'required',
@@ -42,5 +42,31 @@ class SolicitudController extends Controller
         ]);
 
         return Solicitud::create($solicitud);
+    }
+
+    public function actualizar(Request $request, $solicitud_id)
+    {
+
+        $solicitud_db = ModelsSolicitud::findOrFail($solicitud_id);
+
+        $solicitud = $this->validate($request, [
+            'nombre'   => 'sometimes|min:2|max:60',
+            'apellidos'  => 'sometimes|min:2|max:100',
+            'fecha_nacimiento'  => 'sometimes',
+            'anio_escolar' => 'sometimes',
+            'nombre_tutor'    => 'sometimes|min:2|max:60',
+            'apellidos_tutor' => 'sometimes|min:2|max:100',
+            'parentesco' => 'sometimes|' . Rule::in(ModelsSolicitud::PARENTESCO_PERSONA),
+            'email' => 'sometimes',
+            'telefono' => 'sometimes|min:10|max:13',
+            'nombre_colegio' => 'sometimes',
+            'monto_a_pagar' => 'sometimes',
+            'referencia_pago' => 'sometimes',
+            'ciclo_viaje_clave' => 'sometimes',
+            'pais_clave' => 'sometimes',
+            'programa_clave' => 'sometimes'
+        ]);
+
+        return Solicitud::update($solicitud_db, $solicitud);
     }
 }

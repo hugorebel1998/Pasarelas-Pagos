@@ -91,34 +91,57 @@ class Auth
 
             return $payload;
         } catch (Exception $e) {
-            Log::error($e);
-            throw new Exception($e);
+            throw new BadRequestException('El token expiró porfavor de generar uno nuevo.', 401);
         }
     }
 
     public static function refreshToken($token)
     {
+
         try {
             $token_secret = env('TOKEN_SECRET');
             $token_algoritmo = env('TOKEN_ALGORITMO');
+            $token_fecha_creacion = Carbon::now()->timestamp;
+            $toke_life = time() + intval(env('TOKEN_LIFE'));
 
-            $data = JWT::decode($token, new Key($token_secret, $token_algoritmo));
+            $payload = JWT::decode($token['token'], new Key($token_secret, $token_algoritmo));
 
-            $payload = [
-                'success' => true,
-                'user' => [
-                    'id' => data_get($data, 'data.id'),
-                    'username'   => data_get($data, 'data.username'),
-                    'nombre_completo' => data_get($data, 'data.nombre_completo'),
-                    'email'      => data_get($data, 'data.email'),
-                    'estatus'    => data_get($data, 'data.estatus'),
-                ],
+
+            $query = [
+                'exp' => $toke_life,
+                'iat' => $token_fecha_creacion,
+                'data' => [
+                    'id'          => data_get($payload, 'data.id'),
+                    'username'    => data_get($payload, 'data.username'),
+                    'nombre_completo' => data_get($payload, 'data.nombre_completo'),
+                    'email'       => data_get($payload, 'data.email'),
+                    'estatus'     => data_get($payload, 'data.estatus'),
+                ]
             ];
 
-            return $payload;
+            $token_encode = JWT::encode($query, $token_secret, $token_algoritmo);
+
+            if (!$token_encode)
+                throw new Exception('No es posible iniciar sesión, comunicate con tu administrador', 500);
+
+
+            return [
+                'success' => true,
+                'access_token' => $token_encode,
+                'type' => 'bearer',
+                'exp' => $toke_life,
+                'iat' => $token_fecha_creacion,
+                'user' => [
+                    'id'          => data_get($payload, 'data.id'),
+                    'username'    => data_get($payload, 'data.username'),
+                    'nombre_completo' => data_get($payload, 'data.nombre_completo'),
+                    'email'       => data_get($payload, 'data.email'),
+                    'estatus'     => data_get($payload, 'data.estatus'),
+                ]
+            ];
         } catch (Exception $e) {
-            Log::error($e);
-            throw new Exception($e);
+            Log::error($e->getMessage());
+            return $e->getMessage();
         }
     }
 }

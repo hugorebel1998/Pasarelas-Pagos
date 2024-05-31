@@ -44,8 +44,8 @@ class Stripe
                     'customer_name' => $usuario['nombre_completo'],
                 ],
                 'mode' => 'payment',
-                'success_url' => route('pago.success'),
-                'cancel_url' => route('pago.error')
+                'success_url' => env('RUTA_PAGO'),
+                'cancel_url' => env('RUTA_PAGO'),
 
             ]);
 
