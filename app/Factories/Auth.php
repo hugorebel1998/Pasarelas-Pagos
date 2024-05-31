@@ -3,6 +3,7 @@
 namespace App\Factories;
 
 use App\Exceptions\BadRequestException;
+use App\Exceptions\InvalidTokenException;
 use App\Models\Usuario as ModelsUsuario;
 use Firebase\JWT\JWT;
 use Carbon\Carbon;
@@ -18,11 +19,11 @@ class Auth
         $usuario_db = ModelsUsuario::where('email', $usuario['email'])->where('estatus', ModelsUsuario::ESTATUS_ACTIVO)->first();
 
         if (!$usuario_db)
-            throw new BadRequestException('Usuario o contraseña invalido', 401);
+            throw new BadRequestException('Usuario o contraseña invalido.', 401);
 
 
         if (!password_verify($usuario['password'], $usuario_db['password']))
-            throw new BadRequestException('La contraseña no coincide', 401);
+            throw new BadRequestException('La contraseña no coincide.', 401);
 
 
         $token_fecha_creacion = Carbon::now()->timestamp;
@@ -46,7 +47,7 @@ class Auth
         $token = JWT::encode($payload, $token_secret, $token_algoritmo);
 
         if (!$token)
-            throw new Exception('No es posible iniciar sesión, comunicate con tu administrador', 500);
+            throw new BadRequestException('No es posible iniciar sesión, comunicate con tu administrador.', 500);
 
         return [
             'success' => true,
@@ -91,7 +92,8 @@ class Auth
 
             return $payload;
         } catch (Exception $e) {
-            throw new BadRequestException('El token expiró porfavor de generar uno nuevo.', 401);
+            Log::error($e->getMessage());
+            throw new InvalidTokenException('El token expiró porfavor de generar uno nuevo.', 401);
         }
     }
 
@@ -122,7 +124,7 @@ class Auth
             $token_encode = JWT::encode($query, $token_secret, $token_algoritmo);
 
             if (!$token_encode)
-                throw new Exception('No es posible iniciar sesión, comunicate con tu administrador', 500);
+                throw new BadRequestException('No es posible iniciar sesión, comunicate con tu administrador.', 500);
 
 
             return [
@@ -141,7 +143,7 @@ class Auth
             ];
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            return $e->getMessage();
+            throw new InvalidTokenException('Error al generar token.', 401);
         }
     }
 }
