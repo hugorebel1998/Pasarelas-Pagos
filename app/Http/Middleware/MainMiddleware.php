@@ -30,10 +30,7 @@ class MainMiddleware
 
             FacadesAuth::setUser($usuario);
             return $next($request);
-        } else if (($request->path() == 'api/v1/auth/login' || $request->path() == 'api/v1/auth/registrar') && $request->method() == 'POST') {
-            return $next($request);
-        } else if (empty($headers)) {
-            Log::info("Aceso Endpoind Libre");
+        } else if ($request->path() == 'api/v1/auth/login' || $request->path() == 'api/v1/auth/registrar' || $request->path() == 'api/v1/auth/refresh-token') {
             return $next($request);
         } else {
             return response()->json(['success' => false, 'message' => 'Acceso no autorizado'], 401);

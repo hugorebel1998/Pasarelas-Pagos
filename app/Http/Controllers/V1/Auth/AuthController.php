@@ -36,6 +36,7 @@ class AuthController extends Controller
     {
         $token = $this->validate($request, [
             'token' => 'required',
+            'usuario_id' => 'required',
         ]);
 
         return Auth::refreshToken($token);
