@@ -2,6 +2,8 @@
 
 namespace App\Factories;
 
+use App\Models\Pago;
+use App\Models\Solicitud;
 use App\Models\Usuario as ModelsUsuario;
 use Exception;
 
@@ -58,5 +60,13 @@ class Usuario
         $usuario_db->save();
 
         return response()->json(['success' => true, 'message' => 'Contraseña actualizada con éxito'], 200);
+    }
+
+    public static function payments(string $usuario_id)
+    {
+        return Pago::whereHas('solicitud', function ($query) use ($usuario_id) {
+
+            $query->where('usuario_id', $usuario_id);
+        })->get();
     }
 }

@@ -33,4 +33,9 @@ class Pago extends Model
             set: fn ($value) =>  strtolower($value)
         );
     }
+
+    public function solicitud()
+    {
+        return $this->belongsTo(Solicitud::class, 'solicitud_id');
+    }
 }

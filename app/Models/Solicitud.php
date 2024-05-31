@@ -84,4 +84,14 @@ class Solicitud extends Model
             set: fn ($value) => strtolower($value)
         );
     }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'usuario_id');
+    }
+
+    public function pago()
+    {
+        return $this->hasOne(Pago::class, 'solicitud_id');
+    }
 }

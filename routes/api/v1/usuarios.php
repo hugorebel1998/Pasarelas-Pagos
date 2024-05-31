@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'usuarios', 'namespace' => 'Usuarios', 'middleware' => 'mainAuth'], function () {
 
     Route::get('/', 'UsuarioController@listar')->name('listar');
+    Route::get('/pagos', 'UsuarioController@listarPagos')->name('listar-pagos');
     Route::get('/{usuario}', 'UsuarioController@listar')->name('mostrar');
     Route::post('/', 'UsuarioController@crear')->name('crear');
     Route::put('/{usuario}', 'UsuarioController@actualizar')->name('actualizar');

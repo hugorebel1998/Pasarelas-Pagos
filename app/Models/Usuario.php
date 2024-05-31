@@ -55,4 +55,9 @@ class Usuario extends Authenticatable
             get: fn () => implode(' ', array_values([$this->nombre, $this->paterno, $this->materno]))
         );
     }
+
+    public function solicitudes()
+    {
+        return $this->hasMany(Solicitud::class);
+    }
 }

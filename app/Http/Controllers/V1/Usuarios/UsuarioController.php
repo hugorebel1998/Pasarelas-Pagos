@@ -6,6 +6,7 @@ use App\Factories\Usuario;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Usuario as ModelsUsuario;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -62,5 +63,12 @@ class UsuarioController extends Controller
         ]);
 
         return Usuario::restorePassword($usuario_id, $usuario);
+    }
+
+    public function listarPagos()
+    {
+        $usuario_id = Auth::id();
+        
+        return Usuario::payments($usuario_id);
     }
 }
